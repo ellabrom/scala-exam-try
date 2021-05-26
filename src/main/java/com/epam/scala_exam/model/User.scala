@@ -10,5 +10,8 @@ trait User{
   val email:String
   val phoneNumber:String
 
+  registerInUserList()
+  final def registerInUserList(): Unit = AggregatedUsers.addUser(this)
+
 }
 

@@ -1,7 +1,5 @@
 package com.epam.scala_exam.repo
 
-import com.epam.scala_exam.model.User
-
 import java.io.File
 
 
@@ -15,6 +13,6 @@ trait FileReaderRepo {
        else
          Nil
   }
-  def readFilesToMemory():List[User]
+  def readFilesToMemory():Unit
 
 }

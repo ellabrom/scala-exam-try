@@ -13,27 +13,27 @@ import scala.io.Source
 
 @Component
 class AvroFileReaderRepoImpl(@Value("${input_files_path}")  val input_files_path: String,
-                              @Value("${auro_file_ext}") implicit val fileExt: String
+                              @Value("${avro_file_ext}") implicit val fileExt: String
                              ) extends FileReaderRepo {
-  override def readFilesToMemory(): List[User] = {
+  override def readFilesToMemory(): Unit = {
     val auroFiles: List[File] = findFilesInInputPath
-    val listOfObjectsInAllFilesToReturn = new ListBuffer[List[User]]()
+
     val itr = auroFiles.iterator
     while (itr.hasNext) {
-      listOfObjectsInAllFilesToReturn += readAuroFileToMemory(itr.next())
+       readAuroFileToMemory(itr.next())
     }
-    listOfObjectsInAllFilesToReturn.toList.flatMap(list => list.toList)
+
   }
 
-  private def readAuroFileToMemory(file: File): List[User] = {
+  private def readAuroFileToMemory(file: File): Unit = {
 
     val testTxtSource =  Source.fromFile(file)
     val objectMapper = new ObjectMapper
     objectMapper.registerModule(DefaultScalaModule)
-    val persons = objectMapper.readValue(testTxtSource.getLines.mkString, classOf[Array[Person]])
-    persons.toList
+    objectMapper.readValue(testTxtSource.getLines.mkString, classOf[Array[Person]])
+
     testTxtSource.close()
-    persons.toList
+
 
   }
 }
